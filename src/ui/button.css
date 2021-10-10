@@ -1,0 +1,110 @@
+.button {
+	cursor: pointer;
+	outline: none;
+	border-radius: var(--common-border-radius);
+	transition: var(--common-transition);
+	padding: 0;
+}
+
+.button_type_primary {
+	color: var(--text-primary-color);
+	background: #FFCC00;
+	border: 2px solid #FFCC00;
+}
+
+.button_type_primary:hover {
+	background: #F2C200;
+	border: 2px solid #F2C200;
+}
+
+.button_type_primary:active {
+	background: #FFCC00;
+	border: 2px solid #B38F00;
+}
+
+.button_type_secondary {
+	color: var(--text-primary-color);
+	background: #E6E6E6;
+	border: 2px solid #E6E6E6;
+}
+
+.button_type_secondary:hover {
+	background: #DBDBDB;
+	border: 2px solid #DBDBDB;
+}
+
+.button_type_secondary:active {
+	background: #E6E6E6;
+	border: 2px solid #B3B3B3;
+}
+
+.button_normal {
+	font-family: 'YS Text';
+	font-size: 13px;
+	line-height: 36px;
+	height: 36px;
+	font-weight: normal;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	padding-left: 20px;
+	padding-right: 20px;
+	justify-content: center;
+}
+
+.button_icon {
+	font-family: 'YS Text';
+	font-size: 13px;
+	line-height: 28px;
+	height: 28px;
+	display: flex;
+	align-items: center;
+	padding-right: 13px;
+}
+
+@media screen and (max-width: 500px) {
+	.button_icon {
+		padding-right: 0px;
+	}
+	.button_icon_block {
+		width: 28px;
+	}
+	.button_icon span {
+		display: none;
+	}
+}
+
+.button_icon_block {
+	width: 25px;
+	height: 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.button_icon_only {
+	font-family: 'YS Text';
+	font-size: 13px;
+	line-height: 28px;
+	height: 28px;
+	display: flex;
+	align-items: center;
+	padding-right: 0px;
+}
+
+.button_icon_only .button_icon_block {
+	width: 28px;
+}
+
+.button_type_primary[disabled] {
+	color: var(--text-inactive-color);
+	background: var(--colors-button-inactive);
+	border: 2px solid var(--colors-button-inactive);
+	pointer-events: none;
+}
+.button_type_secondary[disabled] {
+	color: var(--text-inactive-color);
+	background: var(--colors-button-inactive);
+	border: 2px solid var(--colors-button-inactive);
+	pointer-events: none;
+}
