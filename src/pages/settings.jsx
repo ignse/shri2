@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './settings.module.css';
 import {Button} from '../ui/button';
 import Footer from '../components/footer/footer';
@@ -6,12 +6,14 @@ import {NavLink, Redirect} from 'react-router-dom';
 import {Input} from '../ui/input';
 import {Number} from '../ui/number';
 import Modal from '../components/modal/modal';
-import {AppContext} from '../components/app/appContext';
+import {useDispatch, useSelector} from 'react-redux';
+import {SAVE_SETTINGS} from '../services/actions/settings';
 
 export function SettingsPage() {
     const [form, setValue] = useState({ repo_name: '', build_command: '', branch: '', sync_time: '', showModal: false, saved: false});
 
-    const [settings, setSettings] = useContext(AppContext);
+    const dispatch = useDispatch();
+    const { settings } = useSelector(store => store);
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
@@ -22,7 +24,15 @@ export function SettingsPage() {
             setValue({ ...form, showModal: true });
         }
         else {
-            setSettings(form);
+            dispatch({
+                type: SAVE_SETTINGS, payload: {
+                    repo_name: form.repo_name,
+                    build_command: form.build_command,
+                    branch: form.branch,
+                    sync_time: form.sync_time
+                }
+            });
+
             setValue({ ...form, saved: true });
         }
     };
@@ -39,7 +49,7 @@ export function SettingsPage() {
         setValue({ ...form, showModal: false });
     };
 
-    if (form.saved) {
+    if (form && form.saved) {
         return (
             <Redirect
                 to={{

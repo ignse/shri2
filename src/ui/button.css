@@ -108,3 +108,9 @@
 	border: 2px solid var(--colors-button-inactive);
 	pointer-events: none;
 }
+
+.button_text {
+	word-break: normal;
+	word-wrap: normal;
+	text-wrap: none;
+}

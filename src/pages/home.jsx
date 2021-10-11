@@ -1,17 +1,17 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import styles from './home.module.css';
 import {Button} from '../ui/button';
 import {SettingsIcon} from '../ui/icons';
 import {Logo} from '../ui/logo';
 import Footer from '../components/footer/footer';
 import {NavLink, Redirect} from 'react-router-dom';
-import {AppContext} from '../components/app/appContext';
+import { useSelector } from 'react-redux';
 
 export function HomePage() {
 
-    const [settings] = useContext(AppContext);
+    const { settings } = useSelector(store => store);
 
-    if (settings.repo_name) {
+    if (settings && settings.repo_name) {
         return (
             <Redirect
                 to={{

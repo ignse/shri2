@@ -1,37 +1,42 @@
-import React, {useContext, useState} from 'react';
+import React, { useEffect } from 'react';
 import styles from './history.module.css';
 import {Button} from '../ui/button';
 import Footer from '../components/footer/footer';
 import {NavLink} from 'react-router-dom';
-import {AppContext} from '../components/app/appContext';
 import BuildItem from '../ui/build-item';
 import defaultData from '../utils/default-data';
 import {PlayIcon, SettingsIcon} from '../ui/icons';
 import Modal from '../components/modal/modal';
 import {Input} from '../ui/input';
+import {useDispatch, useSelector} from 'react-redux';
+import {LOAD_BUILDS} from '../services/actions/builds';
+import {HIDE_NEW_BUILD_POPUP, SHOW_NEW_BUILD_POPUP} from '../services/actions/modal';
 
 export function HistoryPage() {
 
-    const [settings] = useContext(AppContext);
-    const [form, setValue] = useState({ showModal: false});
+    const { settings, builds, modal } = useSelector(store => store);
+
+    const dispatch = useDispatch();
 
     const closeModal = () => {
-        setValue({ ...form, showModal: false });
+        dispatch({type: HIDE_NEW_BUILD_POPUP});
     };
 
     const onNewBuild = () => {
-        setValue({ ...form, showModal: true });
+        dispatch({type: SHOW_NEW_BUILD_POPUP});
     };
+
+    useEffect(() => {
+        dispatch({type: LOAD_BUILDS, payload: defaultData});
+    }, [dispatch]);
 
     return (
       <>
           <main className={styles.container}>
             <header className={styles.header}>
-                <NavLink to={''}>
-                    <h3>
-                        {settings.repo_name}
-                    </h3>
-                </NavLink>
+                <span className={styles.header_text}>
+                    {settings.repo_name}
+                </span>
                 <span className={styles.header_buttons}>
                     <Button icon={<PlayIcon />} onClick={onNewBuild}>
                             Run build
@@ -43,12 +48,12 @@ export function HistoryPage() {
             </header>
             <section className={styles.content}>
                 <ul className='build_list'>
-                    {defaultData.map(build => <li key={build.buildNumber} className='build_list_item'><BuildItem {...build} /></li>)}
+                    {builds.length && builds.map(build => <li key={build.buildNumber} className='build_list_item'><BuildItem {...build} /></li>)}
                 </ul>
           </section>
           </main>
           <Footer />
-          {form.showModal && <Modal onClose={closeModal}>
+          {modal.buildPopupVisible && <Modal onClose={closeModal}>
               <div className={styles.modal}>
                   <span>
                      <span className={styles.title}>New build</span>
